@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le PCMN - Maîtrise le Plan Comptable ! | Institut Saint-Luc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #0f1729;
+  --bg-card: #1a2340;
+  --bg-card-hover: #1e2a4a;
+  --accent-blue: #4e7cff;
+  --accent-cyan: #00d4aa;
+  --accent-orange: #ff8c42;
+  --accent-pink: #ff5e8a;
+  --accent-purple: #a855f7;
+  --accent-yellow: #fbbf24;
+  --text-primary: #e8ecf4;
+  --text-secondary: #8892a8;
+  --text-muted: #5a6478;
+  --success: #22c55e;
+  --error: #ef4444;
+  --border: rgba(78, 124, 255, 0.15);
+  --glass: rgba(26, 35, 64, 0.85);
+  --shadow: 0 8px 32px rgba(0,0,0,0.3);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(78, 124, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 212, 170, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
+  z-index: 0;
+  animation: bgShift 20s ease-in-out infinite alternate;
+}
+
+@keyframes bgShift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-2%, -2%) rotate(3deg); }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes starPop {
+  0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+  60% { transform: scale(1.3) rotate(10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.animate-in { animation: fadeInUp 0.5s ease-out forwards; }
+
+/* ===== LAYOUT ===== */
+.app-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.app-header {
+  text-align: center;
+  padding: 40px 20px 30px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.app-header .logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.app-header h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+  line-height: 1.2;
+}
+
+.app-header .subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-section {
+  margin: 20px 0 30px;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+
+.progress-stats .level-info {
+  color: var(--accent-cyan);
+  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.progress-stats .score-info {
+  color: var(--accent-yellow);
+  font-weight: 700;
+}
+
+.progress-bar-track {
+  height: 12px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-purple));
+  background-size: 200% 100%;
+  border-radius: 6px;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: shimmer 3s linear infinite;
+  width: 0%;
+}
+
+/* ===== EXERCISE NAVIGATION ===== */
+.exercise-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+  margin-bottom: 30px;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.nav-btn {
+  position: relative;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.nav-btn:hover { 
+  border-color: var(--accent-blue);
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.nav-btn.active {
+  border-color: var(--accent-blue);
+  background: linear-gradient(135deg, rgba(78,124,255,0.2), rgba(168,85,247,0.1));
+  color: var(--text-primary);
+}
+
+.nav-btn.completed {
+  border-color: var(--success);
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success);
+}
+
+.nav-btn.completed::after {
+  content: '✓';
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--success);
+  color: #fff;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn .nav-num {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 2px;
+}
+
+.nav-btn.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== EXERCISE PANEL ===== */
+.exercise-panel {
+  display: none;
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.exercise-panel.active { display: block; }
+
+.panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.panel-card .ex-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.ex-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.ex-header h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.ex-header .ex-desc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+/* ===== THEORY BOX ===== */
+.theory-box {
+  background: linear-gradient(135deg, rgba(78,124,255,0.08), rgba(0,212,170,0.05));
+  border: 1px solid rgba(78,124,255,0.2);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.theory-box .theory-title {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.theory-box code {
+  background: rgba(255,255,255,0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: var(--accent-yellow);
+}
+
+/* ===== QUESTION AREA ===== */
+.question-area {
+  margin-bottom: 24px;
+}
+
+.question-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.question-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(78,124,255,0.15);
+  color: var(--accent-blue);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.question-scenario {
+  background: rgba(255,140,66,0.08);
+  border-left: 3px solid var(--accent-orange);
+  padding: 12px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ===== OPTIONS (MCQ) ===== */
+.options-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.option-btn {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.option-btn:hover {
+  border-color: var(--accent-blue);
+  background: rgba(78,124,255,0.08);
+  transform: translateX(4px);
+}
+
+.option-btn .opt-letter {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(78,124,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.option-btn.correct {
+  border-color: var(--success);
+  background: rgba(34,197,94,0.1);
+  animation: bounceIn 0.3s ease-out;
+}
+
+.option-btn.correct .opt-letter {
+  background: var(--success);
+  color: #fff;
+}
+
+.option-btn.wrong {
+  border-color: var(--error);
+  background: rgba(239,68,68,0.08);
+  animation: shake 0.4s ease-out;
+}
+
+.option-btn.wrong .opt-letter {
+  background: var(--error);
+  color: #fff;
+}
+
+.option-btn.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ===== DRAG & DROP ===== */
+.drop-zones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.drop-zone {
+  background: rgba(255,255,255,0.02);
+  border: 2px dashed rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  min-height: 100px;
+  transition: all 0.3s ease;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--accent-cyan);
+  background: rgba(0,212,170,0.05);
+}
+
+.drop-zone .zone-label {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.drag-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  min-height: 50px;
+  padding: 10px;
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.drag-item {
+  background: linear-gradient(135deg, var(--bg-card-hover), var(--bg-card));
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.drag-item:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.drag-item:active { cursor: grabbing; }
+
+.drag-item.placed {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.dropped-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(78,124,255,0.12);
+  border: 1px solid rgba(78,124,255,0.3);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 3px;
+  cursor: pointer;
+}
+
+.dropped-item:hover { background: rgba(239,68,68,0.15); border-color: var(--error); }
+
+.dropped-item.correct-item { border-color: var(--success); background: rgba(34,197,94,0.12); }
+.dropped-item.wrong-item { border-color: var(--error); background: rgba(239,68,68,0.12); }
+
+/* ===== TABLE EXERCISES ===== */
+.account-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+}
+
+.account-table th {
+  background: linear-gradient(135deg, rgba(78,124,255,0.2), rgba(168,85,247,0.1));
+  padding: 10px 12px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--accent-blue);
+}
+
+.account-table td {
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.01);
+}
+
+.account-table tr:hover td {
+  background: rgba(255,255,255,0.03);
+}
+
+.account-table .debit-col { color: var(--accent-orange); font-weight: 600; }
+.account-table .credit-col { color: var(--accent-cyan); font-weight: 600; }
+.account-table .solde-col { color: var(--accent-yellow); font-weight: 700; }
+
+.account-table input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  text-align: center;
+  width: 90px;
+  transition: border-color 0.2s;
+}
+
+.account-table input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  background: rgba(78,124,255,0.08);
+}
+
+.account-table input.input-correct {
+  border-color: var(--success);
+  background: rgba(34,197,94,0.1);
+  color: var(--success);
+}
+
+.account-table input.input-wrong {
+  border-color: var(--error);
+  background: rgba(239,68,68,0.08);
+  color: var(--error);
+}
+
+.account-title-bar {
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  color: white;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== MATCHING ===== */
+.match-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.match-col { display: flex; flex-direction: column; gap: 8px; }
+
+.match-item {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.match-item:hover {
+  border-color: var(--accent-blue);
+  background: rgba(78,124,255,0.06);
+}
+
+.match-item.selected {
+  border-color: var(--accent-cyan);
+  background: rgba(0,212,170,0.1);
+  box-shadow: 0 0 12px rgba(0,212,170,0.15);
+}
+
+.match-item.matched {
+  border-color: var(--success);
+  background: rgba(34,197,94,0.08);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.match-item.wrong-match {
+  animation: shake 0.4s ease-out;
+  border-color: var(--error);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  color: white;
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(78,124,255,0.3); }
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success), #16a34a);
+  color: white;
+}
+
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34,197,94,0.3); }
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.btn-outline:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* ===== FEEDBACK ===== */
+.feedback-bar {
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-top: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: bounceIn 0.3s ease-out;
+  font-size: 0.9rem;
+}
+
+.feedback-bar.success {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: var(--success);
+}
+
+.feedback-bar.error {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: var(--error);
+}
+
+.feedback-bar.info {
+  background: rgba(78,124,255,0.08);
+  border: 1px solid rgba(78,124,255,0.3);
+  color: var(--accent-blue);
+}
+
+/* ===== SCORE DISPLAY ===== */
+.score-display {
+  text-align: center;
+  padding: 30px;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka', sans-serif;
+  border: 4px solid;
+}
+
+.score-circle .score-num {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.score-circle .score-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.score-circle.gold { border-color: var(--accent-yellow); color: var(--accent-yellow); background: rgba(251,191,36,0.08); }
+.score-circle.silver { border-color: var(--text-secondary); color: var(--text-secondary); background: rgba(136,146,168,0.08); }
+.score-circle.bronze { border-color: var(--accent-orange); color: var(--accent-orange); background: rgba(255,140,66,0.08); }
+
+.stars-row {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+}
+
+.stars-row .star {
+  display: inline-block;
+  animation: starPop 0.4s ease-out both;
+}
+
+.stars-row .star:nth-child(1) { animation-delay: 0.1s; }
+.stars-row .star:nth-child(2) { animation-delay: 0.25s; }
+.stars-row .star:nth-child(3) { animation-delay: 0.4s; }
+
+/* ===== INTRO / WELCOME ===== */
+.welcome-panel { text-align: center; }
+
+.welcome-panel .mascot {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.welcome-panel p {
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.feature-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+
+.feature-card .feat-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.feature-card .feat-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; }
+.feature-card .feat-desc { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ===== VF TOGGLE ===== */
+.vf-toggle-group {
+  display: flex;
+  gap: 10px;
+}
+
+.vf-btn {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vf-btn:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+.vf-btn.selected-v { border-color: var(--success); background: rgba(34,197,94,0.1); color: var(--success); }
+.vf-btn.selected-f { border-color: var(--error); background: rgba(239,68,68,0.08); color: var(--error); }
+.vf-btn.correct-answer { border-color: var(--success); background: rgba(34,197,94,0.15); color: var(--success); }
+.vf-btn.wrong-answer { border-color: var(--error); background: rgba(239,68,68,0.15); color: var(--error); }
+
+/* ===== SELECT DROPDOWN ===== */
+.styled-select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--text-primary);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-width: 80px;
+}
+
+.styled-select:focus { outline: none; border-color: var(--accent-blue); }
+.styled-select.input-correct { border-color: var(--success); background: rgba(34,197,94,0.1); }
+.styled-select.input-wrong { border-color: var(--error); background: rgba(239,68,68,0.08); }
+
+/* ===== CONFETTI ===== */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  z-index: 9999;
+  animation: confetti-fall linear forwards;
+  pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .app-container { padding: 12px; }
+  .panel-card { padding: 18px; }
+  .exercise-nav { grid-template-columns: repeat(4, 1fr); }
+  .match-container { grid-template-columns: 1fr; }
+  .drop-zones { grid-template-columns: 1fr; }
+  .account-table { font-size: 0.75rem; }
+  .account-table input { width: 70px; font-size: 0.75rem; }
+}
+
+/* ===== TOOLTIP ===== */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.tooltip:hover::after { opacity: 1; }
+
+/* ===== BILAN TABLE ===== */
+.bilan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.bilan-side {
+  background: var(--bg-card);
+  padding: 14px;
+}
+
+.bilan-side h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-align: center;
+  padding-bottom: 8px;
+  border-bottom: 2px solid;
+}
+
+.bilan-side.actif h3 { border-color: var(--accent-blue); color: var(--accent-blue); }
+.bilan-side.passif h3 { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+.bilan-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.bilan-row .bilan-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.bilan-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+  border-top: 2px solid var(--accent-cyan);
+  margin-top: 8px;
+}
+
+/* ===== HIDDEN ===== */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="logo-badge">📊 Institut Saint-Luc de Frameries</div>
+    <h1>Maîtrise le Plan Comptable !</h1>
+    <p class="subtitle">Le PCMN belge et les comptes de bilan — 7 défis pour devenir un pro 🚀</p>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-stats">
+      <span class="level-info" id="levelInfo">Niveau 0/7</span>
+      <span class="score-info" id="totalScore">⭐ 0 points</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- EXERCISE NAV -->
+  <div class="exercise-nav" id="exerciseNav"></div>
+
+  <!-- ==================== WELCOME ==================== -->
+  <div class="exercise-panel active" id="panel-welcome">
+    <div class="panel-card welcome-panel">
+      <div class="mascot">🧑‍💼</div>
+      <h2 style="font-family:'Fredoka',sans-serif; font-size:1.6rem; margin-bottom:12px;">Bienvenue, futur(e) comptable !</h2>
+      <p>Tu vas découvrir le <strong>Plan Comptable Minimum Normalisé (PCMN)</strong> à travers 7 exercices progressifs. Chaque exercice réussi te rapporte des points et des étoiles. Prêt(e) à relever le défi ?</p>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feat-icon">🏷️</div>
+          <div class="feat-title">7 Classes</div>
+          <div class="feat-desc">Découvre les classes du PCMN</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🔢</div>
+          <div class="feat-title">Codification</div>
+          <div class="feat-desc">Maîtrise les numéros de comptes</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">⚖️</div>
+          <div class="feat-title">Débit / Crédit</div>
+          <div class="feat-desc">Comprends les règles de base</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">📋</div>
+          <div class="feat-title">Comptes</div>
+          <div class="feat-desc">Complète des comptes réels</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="startGame()" style="font-size:1.1rem; padding:14px 36px; margin-top:10px;">
+        🎮 C'est parti !
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== EX 1: CLASSES DU PCMN ==================== -->
+  <div class="exercise-panel" id="panel-ex1">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(78,124,255,0.15);">🏷️</div>
+        <div>
+          <h2>Exercice 1 — Les 7 classes du PCMN</h2>
+          <div class="ex-desc">Identifie la classe de chaque compte</div>
+        </div>
+      </div>
+
+      <div class="theory-box">
+        <div class="theory-title">💡 Rappel</div>
+        Le PCMN belge est organisé en <strong>7 classes</strong>. Le <strong>premier chiffre</strong> du numéro de compte indique sa classe.<br>
+        Classes <code>1 à 5</code> = Comptes de <strong>BILAN</strong> &nbsp;|&nbsp; Classes <code>6</code> et <code>7</code> = Comptes de <strong>GESTION</strong>
+      </div>
+
+      <div id="ex1-content"></div>
+      <div id="ex1-feedback"></div>
+      <div class="btn-group" id="ex1-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== EX 2: CODIFICATION DÉCIMALE ==================== -->
+  <div class="exercise-panel" id="panel-ex2">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(0,212,170,0.15);">🔢</div>
+        <div>
+          <h2>Exercice 2 — La codification décimale</h2>
+          <div class="ex-desc">Comprends la structure des numéros de comptes</div>
+        </div>
+      </div>
+
+      <div class="theory-box">
+        <div class="theory-title">💡 Rappel</div>
+        Plus un numéro de compte contient de chiffres, plus il est <strong>précis</strong> :<br>
+        <code>4</code> = Classe → <code>40</code> = Sous-classe → <code>400</code> = Compte → <code>4000</code> = Sous-compte<br>
+        ⚠️ Les comptes à 1 ou 2 chiffres sont des <strong>comptes-titres</strong> : on n'y enregistre jamais d'opération !
+      </div>
+
+      <div id="ex2-content"></div>
+      <div id="ex2-feedback"></div>
+      <div class="btn-group" id="ex2-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== EX 3: VRAI OU FAUX ==================== -->
+  <div class="exercise-panel" id="panel-ex3">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(255,94,138,0.15);">✅</div>
+        <div>
+          <h2>Exercice 3 — Vrai ou Faux ?</h2>
+          <div class="ex-desc">Teste tes connaissances du PCMN</div>
+        </div>
+      </div>
+
+      <div id="ex3-content"></div>
+      <div id="ex3-feedback"></div>
+      <div class="btn-group" id="ex3-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== EX 4: DU CONCRET AU COMPTABLE ==================== -->
+  <div class="exercise-panel" id="panel-ex4">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(255,140,66,0.15);">🏪</div>
+        <div>
+          <h2>Exercice 4 — Du concret au comptable</h2>
+          <div class="ex-desc">Associe les éléments réels aux bons comptes</div>
+        </div>
+      </div>
+
+      <div class="theory-box">
+        <div class="theory-title">💡 Scénario</div>
+        Tu travailles chez <strong>BelgaTech SRL</strong>, une entreprise qui vend du matériel informatique à Mons. 
+        Le comptable t'a demandé d'identifier les comptes correspondant aux éléments de l'entreprise.
+      </div>
+
+      <div id="ex4-content"></div>
+      <div id="ex4-feedback"></div>
+      <div class="btn-group" id="ex4-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== EX 5: ACTIF OU PASSIF + DÉBIT/CRÉDIT ==================== -->
+  <div class="exercise-panel" id="panel-ex5">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(168,85,247,0.15);">⚖️</div>
+        <div>
+          <h2>Exercice 5 — Actif, Passif & Débit/Crédit</h2>
+          <div class="ex-desc">Maîtrise les règles de fonctionnement des comptes</div>
+        </div>
+      </div>
+
+      <div class="theory-box">
+        <div class="theory-title">💡 Rappel des règles</div>
+        <strong>Compte d'ACTIF :</strong> augmentation au <code>DÉBIT</code>, diminution au <code>CRÉDIT</code><br>
+        <strong>Compte de PASSIF :</strong> augmentation au <code>CRÉDIT</code>, diminution au <code>DÉBIT</code><br>
+        Le solde d'un compte d'actif est toujours <strong>débiteur</strong>, celui d'un compte de passif est toujours <strong>créditeur</strong>.
+      </div>
+
+      <div id="ex5-content"></div>
+      <div id="ex5-feedback"></div>
+      <div class="btn-group" id="ex5-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== EX 6: COMPLÉTER UN COMPTE ==================== -->
+  <div class="exercise-panel" id="panel-ex6">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(251,191,36,0.15);">📋</div>
+        <div>
+          <h2>Exercice 6 — Compléter un compte</h2>
+          <div class="ex-desc">Remplis les comptes d'actif et de passif</div>
+        </div>
+      </div>
+
+      <div class="theory-box">
+        <div class="theory-title">💡 Scénario</div>
+        L'entreprise <strong>FleurShop SRL</strong> (fleuriste à Frameries) a commencé son activité le 2 janvier. 
+        Tu dois compléter ses comptes en calculant correctement les soldes après chaque opération.
+      </div>
+
+      <div id="ex6-content"></div>
+      <div id="ex6-feedback"></div>
+      <div class="btn-group" id="ex6-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== EX 7: SITUATION COMPLÈTE ==================== -->
+  <div class="exercise-panel" id="panel-ex7">
+    <div class="panel-card">
+      <div class="ex-header">
+        <div class="ex-icon" style="background:rgba(34,197,94,0.15);">🏆</div>
+        <div>
+          <h2>Exercice 7 — Situation complète</h2>
+          <div class="ex-desc">Dresse le bilan d'une entreprise</div>
+        </div>
+      </div>
+
+      <div class="theory-box">
+        <div class="theory-title">💡 Défi final</div>
+        L'entreprise <strong>PixelWeb SRL</strong> (agence web à Charleroi) vient de se créer. 
+        À partir de la liste de ses avoirs et dettes, tu dois classer chaque élément au bon endroit dans le bilan 
+        et vérifier l'équilibre <code>ACTIF = PASSIF</code>.
+      </div>
+
+      <div id="ex7-content"></div>
+      <div id="ex7-feedback"></div>
+      <div class="btn-group" id="ex7-buttons"></div>
+    </div>
+  </div>
+
+  <!-- ==================== FINAL RESULTS ==================== -->
+  <div class="exercise-panel" id="panel-final">
+    <div class="panel-card" style="text-align:center; padding:40px;">
+      <div id="final-content"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// APP STATE
+// ============================================================
+const state = {
+  currentExercise: 0, // 0 = welcome
+  scores: [0,0,0,0,0,0,0],
+  maxScores: [0,0,0,0,0,0,0],
+  completed: [false,false,false,false,false,false,false],
+  totalScore: 0,
+  currentQ: 0
+};
+
+const exercises = [
+  { id: 'ex1', name: 'Classes', icon: '🏷️' },
+  { id: 'ex2', name: 'Codification', icon: '🔢' },
+  { id: 'ex3', name: 'Vrai/Faux', icon: '✅' },
+  { id: 'ex4', name: 'Concret', icon: '🏪' },
+  { id: 'ex5', name: 'Débit/Crédit', icon: '⚖️' },
+  { id: 'ex6', name: 'Comptes', icon: '📋' },
+  { id: 'ex7', name: 'Bilan', icon: '🏆' }
+];
+
+// ============================================================
+// NAV & UI
+// ============================================================
+function buildNav() {
+  const nav = document.getElementById('exerciseNav');
+  nav.innerHTML = exercises.map((ex, i) => `
+    <button class="nav-btn ${i === 0 ? '' : 'locked'}" id="nav-${i}" onclick="goToExercise(${i+1})">
+      <span class="nav-num">${ex.icon}</span>
+      Ex ${i+1}
+    </button>
+  `).join('');
+}
+
+function updateNav() {
+  exercises.forEach((ex, i) => {
+    const btn = document.getElementById(`nav-${i}`);
+    btn.className = 'nav-btn';
+    if (state.completed[i]) btn.classList.add('completed');
+    if (state.currentExercise === i+1) btn.classList.add('active');
+    // Unlock: first always unlocked, or previous completed
+    if (i === 0 || state.completed[i-1]) {
+      btn.classList.remove('locked');
+    } else if (!state.completed[i]) {
+      btn.classList.add('locked');
+    }
+  });
+}
+
+function updateProgress() {
+  const done = state.completed.filter(Boolean).length;
+  document.getElementById('levelInfo').textContent = `Niveau ${done}/7`;
+  document.getElementById('totalScore').textContent = `⭐ ${state.totalScore} points`;
+  document.getElementById('progressFill').style.width = `${(done/7)*100}%`;
+}
+
+function showPanel(id) {
+  document.querySelectorAll('.exercise-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(`panel-${id}`);
+  if (panel) { panel.classList.add('active'); panel.style.animation = 'none'; panel.offsetHeight; panel.style.animation = 'fadeInUp 0.4s ease-out'; }
+}
+
+function goToExercise(num) {
+  const btn = document.getElementById(`nav-${num-1}`);
+  if (btn && btn.classList.contains('locked')) return;
+  state.currentExercise = num;
+  state.currentQ = 0;
+  showPanel(exercises[num-1].id);
+  updateNav();
+  window[`initEx${num}`]();
+}
+
+function startGame() {
+  goToExercise(1);
+}
+
+function completeExercise(exIdx, score, maxScore) {
+  state.scores[exIdx] = Math.max(state.scores[exIdx], score);
+  state.maxScores[exIdx] = maxScore;
+  if (!state.completed[exIdx]) {
+    state.completed[exIdx] = true;
+    state.totalScore += score;
+  }
+  updateProgress();
+  updateNav();
+  
+  // Check if all done
+  if (state.completed.every(Boolean)) {
+    setTimeout(() => showFinalResults(), 300);
+  }
+}
+
+function getStars(score, max) {
+  const pct = score / max;
+  if (pct >= 0.9) return 3;
+  if (pct >= 0.6) return 2;
+  if (pct > 0) return 1;
+  return 0;
+}
+
+function starsHTML(count) {
+  return Array.from({length: 3}, (_, i) => 
+    `<span class="star">${i < count ? '⭐' : '☆'}</span>`
+  ).join('');
+}
+
+function showExerciseResult(containerId, btnContainerId, exIdx, score, maxScore) {
+  const stars = getStars(score, maxScore);
+  const pct = Math.round((score/maxScore)*100);
+  const circleClass = stars === 3 ? 'gold' : stars === 2 ? 'silver' : 'bronze';
+  
+  let msg = '';
+  if (pct >= 90) msg = 'Excellent travail ! Tu maîtrises parfaitement ce sujet ! 🎉';
+  else if (pct >= 70) msg = 'Très bien ! Encore un petit effort pour la perfection !';
+  else if (pct >= 50) msg = 'Pas mal ! Revois le rappel théorique pour t\'améliorer.';
+  else msg = 'Continue tes efforts ! Relis la théorie et réessaie. 💪';
+
+  document.getElementById(containerId).innerHTML = `
+    <div class="score-display">
+      <div class="stars-row">${starsHTML(stars)}</div>
+      <div class="score-circle ${circleClass}">
+        <span class="score-num">${pct}%</span>
+        <span class="score-label">${score}/${maxScore} pts</span>
+      </div>
+      <p style="margin-top:16px; color:var(--text-secondary);">${msg}</p>
+    </div>
+  `;
+
+  const nextIdx = exIdx + 1;
+  let btns = `<button class="btn btn-outline" onclick="goToExercise(${exIdx+1})">🔄 Recommencer</button>`;
+  if (nextIdx < 7) {
+    btns += `<button class="btn btn-primary" onclick="goToExercise(${nextIdx+1})">Exercice suivant ➜</button>`;
+  } else {
+    btns += `<button class="btn btn-success" onclick="showFinalResults()">🏆 Voir mes résultats</button>`;
+  }
+  document.getElementById(btnContainerId).innerHTML = btns;
+
+  completeExercise(exIdx, score, maxScore);
+  if (pct >= 90) launchConfetti();
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function launchConfetti() {
+  const colors = ['#4e7cff','#00d4aa','#ff8c42','#ff5e8a','#a855f7','#fbbf24'];
+  for (let i = 0; i < 40; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.width = (Math.random() * 8 + 5) + 'px';
+    piece.style.height = (Math.random() * 8 + 5) + 'px';
+    piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    piece.style.animationDelay = Math.random() * 0.5 + 's';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 4500);
+  }
+}
+
+// ============================================================
+// EXERCISE 1: LES 7 CLASSES DU PCMN
+// ============================================================
+const ex1Questions = [
+  { account: "Capital souscrit", num: "100", answer: 1, className: "Fonds propres, provisions et dettes à + 1 an" },
+  { account: "Terrains", num: "220", answer: 2, className: "Frais d'étab., actifs immobilisés, créances à + 1 an" },
+  { account: "Marchandises", num: "340", answer: 3, className: "Stocks et commandes en cours d'exécution" },
+  { account: "Fournisseurs", num: "440", answer: 4, className: "Créances et dettes à 1 an au plus" },
+  { account: "Caisse espèces", num: "570", answer: 5, className: "Placements de trésorerie et valeurs disponibles" },
+  { account: "Achats de marchandises", num: "604", answer: 6, className: "Charges" },
+  { account: "Chiffre d'affaires", num: "700", answer: 7, className: "Produits" },
+  { account: "Clients", num: "400", answer: 4, className: "Créances et dettes à 1 an au plus" },
+  { account: "Mobilier et matériel de bureau", num: "240", answer: 2, className: "Frais d'étab., actifs immobilisés, créances à + 1 an" },
+  { account: "Banque compte courant", num: "550", answer: 5, className: "Placements de trésorerie et valeurs disponibles" },
+  { account: "Réserve légale", num: "130", answer: 1, className: "Fonds propres, provisions et dettes à + 1 an" },
+  { account: "Matériel roulant", num: "241", answer: 2, className: "Frais d'étab., actifs immobilisés, créances à + 1 an" },
+];
+
+let ex1Data = {};
+
+function initEx1() {
+  ex1Data = { questions: shuffle([...ex1Questions]).slice(0, 8), current: 0, score: 0, answered: false };
+  renderEx1();
+}
+
+function renderEx1() {
+  const d = ex1Data;
+  if (d.current >= d.questions.length) {
+    showExerciseResult('ex1-content', 'ex1-buttons', 0, d.score, d.questions.length);
+    return;
+  }
+  const q = d.questions[d.current];
+  d.answered = false;
+  document.getElementById('ex1-feedback').innerHTML = '';
+  
+  const options = [1,2,3,4,5,6,7];
+  document.getElementById('ex1-content').innerHTML = `
+    <div class="question-counter">Question ${d.current+1}/${d.questions.length}</div>
+    <div class="question-text">Le compte <span style="color:var(--accent-cyan);">${q.num} ${q.account}</span> appartient à quelle classe ?</div>
+    <div class="options-grid">
+      ${options.map(c => `
+        <button class="option-btn" onclick="answerEx1(${c})" id="ex1-opt-${c}">
+          <span class="opt-letter">${c}</span>
+          <span>Classe ${c}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('ex1-buttons').innerHTML = '';
+}
+
+function answerEx1(chosen) {
+  if (ex1Data.answered) return;
+  ex1Data.answered = true;
+  const q = ex1Data.questions[ex1Data.current];
+  const correct = chosen === q.answer;
+  
+  document.querySelectorAll('#ex1-content .option-btn').forEach(b => b.classList.add('disabled'));
+  document.getElementById(`ex1-opt-${chosen}`).classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) document.getElementById(`ex1-opt-${q.answer}`).classList.add('correct');
+  
+  if (correct) ex1Data.score++;
+  
+  document.getElementById('ex1-feedback').innerHTML = `
+    <div class="feedback-bar ${correct ? 'success' : 'error'}">
+      ${correct ? '✅' : '❌'} ${correct ? 'Bravo !' : 'Pas tout à fait...'} 
+      Le compte ${q.num} est en <strong>classe ${q.answer}</strong> (${q.className}).
+    </div>
+  `;
+  
+  document.getElementById('ex1-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex1Data.current++; renderEx1();">Suivant ➜</button>
+  `;
+}
+
+// ============================================================
+// EXERCISE 2: CODIFICATION DÉCIMALE
+// ============================================================
+const ex2Questions = [
+  { q: "Le numéro <strong>400</strong> est un compte de quel niveau ?", options: ["Classe", "Sous-classe", "Compte (utilisable)", "Sous-compte"], answer: 2 },
+  { q: "Peut-on enregistrer une opération dans le compte <strong>55</strong> (Établissements de crédit) ?", options: ["Oui, c'est un compte normal", "Non, c'est un compte-titre (2 chiffres)"], answer: 1 },
+  { q: "Le compte <strong>4000</strong> correspond à quel niveau de précision ?", options: ["Classe", "Sous-classe", "Compte général", "Sous-compte (détail individuel)"], answer: 3 },
+  { q: "Si un compte commence par le chiffre <strong>2</strong>, il fait partie de quelle catégorie ?", options: ["Fonds propres et dettes à long terme", "Actifs immobilisés (terrains, bâtiments...)", "Stocks et commandes en cours", "Créances et dettes à court terme"], answer: 1 },
+  { q: "Quel est le nombre minimum de chiffres pour un compte utilisable ?", options: ["1 chiffre", "2 chiffres", "3 chiffres", "4 chiffres"], answer: 2 },
+  { q: "Dans le numéro <strong>221</strong>, que représente le <strong>22</strong> ?", options: ["La classe", "La sous-classe (Terrains et constructions)", "Le compte", "Le sous-compte"], answer: 1 },
+  { q: "Le compte <strong>173</strong> « Établissements de crédit » est en classe 1. Il s'agit donc d'un compte de :", options: ["Actif (l'entreprise possède)", "Passif (l'entreprise doit)", "Gestion (charges ou produits)"], answer: 1 },
+  { q: "Un client s'appelle « Dupont ». On lui attribue le sous-compte <strong>4000</strong>. Quel compte général est-ce ?", options: ["400 Clients", "440 Fournisseurs", "410 Créances diverses", "4 Créances et dettes"], answer: 0 },
+];
+
+let ex2Data = {};
+
+function initEx2() {
+  ex2Data = { questions: shuffle([...ex2Questions]).slice(0, 6), current: 0, score: 0, answered: false };
+  renderEx2();
+}
+
+function renderEx2() {
+  const d = ex2Data;
+  if (d.current >= d.questions.length) {
+    showExerciseResult('ex2-content', 'ex2-buttons', 1, d.score, d.questions.length);
+    return;
+  }
+  const q = d.questions[d.current];
+  d.answered = false;
+  document.getElementById('ex2-feedback').innerHTML = '';
+  
+  const letters = ['A','B','C','D'];
+  document.getElementById('ex2-content').innerHTML = `
+    <div class="question-counter">Question ${d.current+1}/${d.questions.length}</div>
+    <div class="question-text">${q.q}</div>
+    <div class="options-grid">
+      ${q.options.map((opt, i) => `
+        <button class="option-btn" onclick="answerEx2(${i})" id="ex2-opt-${i}">
+          <span class="opt-letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('ex2-buttons').innerHTML = '';
+}
+
+function answerEx2(chosen) {
+  if (ex2Data.answered) return;
+  ex2Data.answered = true;
+  const q = ex2Data.questions[ex2Data.current];
+  const correct = chosen === q.answer;
+  
+  document.querySelectorAll('#ex2-content .option-btn').forEach(b => b.classList.add('disabled'));
+  document.getElementById(`ex2-opt-${chosen}`).classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) document.getElementById(`ex2-opt-${q.answer}`).classList.add('correct');
+  
+  if (correct) ex2Data.score++;
+  
+  document.getElementById('ex2-feedback').innerHTML = `
+    <div class="feedback-bar ${correct ? 'success' : 'error'}">
+      ${correct ? '✅ Correct !' : '❌ Ce n\'est pas ça.'} La bonne réponse est : <strong>${q.options[q.answer]}</strong>.
+    </div>
+  `;
+  
+  document.getElementById('ex2-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex2Data.current++; renderEx2();">Suivant ➜</button>
+  `;
+}
+
+// ============================================================
+// EXERCISE 3: VRAI OU FAUX
+// ============================================================
+const ex3Questions = [
+  { statement: "Le plan comptable belge contient 9 classes.", answer: false, explanation: "Le PCMN contient 7 classes (de 1 à 7)." },
+  { statement: "Le premier chiffre d'un numéro de compte indique toujours sa classe.", answer: true, explanation: "C'est exact ! Par exemple, 550 commence par 5, donc c'est la classe 5." },
+  { statement: "Le compte 55 « Établissements de crédit » peut être utilisé pour enregistrer des opérations.", answer: false, explanation: "C'est un compte-titre (2 chiffres). Il faut utiliser 550 (3 chiffres minimum)." },
+  { statement: "La classe 6 fait partie des comptes de bilan.", answer: false, explanation: "La classe 6 (Charges) fait partie des comptes de gestion, pas du bilan." },
+  { statement: "Le compte 440 Fournisseurs est un compte de passif.", answer: true, explanation: "Les fournisseurs représentent une dette, donc c'est bien un compte de passif." },
+  { statement: "La classe 3 concerne les immeubles et les terrains.", answer: false, explanation: "La classe 3 concerne les stocks. Les immeubles et terrains sont en classe 2." },
+  { statement: "Les classes 1 à 5 servent à dresser le bilan de l'entreprise.", answer: true, explanation: "Exact ! Le bilan reprend les comptes des classes 1 à 5 (patrimoine de l'entreprise)." },
+  { statement: "Un compte d'actif augmente au crédit.", answer: false, explanation: "Un compte d'actif augmente au DÉBIT et diminue au crédit." },
+  { statement: "Le compte 400 Clients est un compte d'actif (créance commerciale).", answer: true, explanation: "Les clients nous doivent de l'argent : c'est un avoir (actif) pour l'entreprise." },
+  { statement: "Le solde d'un compte de passif est normalement débiteur.", answer: false, explanation: "Le solde d'un compte de passif est normalement CRÉDITEUR." },
+  { statement: "La classe 4 contient à la fois des comptes d'actif et de passif.", answer: true, explanation: "Exact ! 400 Clients = actif, 440 Fournisseurs = passif." },
+  { statement: "Un compte de passif augmente au débit.", answer: false, explanation: "Un compte de passif augmente au CRÉDIT et diminue au débit." },
+];
+
+let ex3Data = {};
+
+function initEx3() {
+  ex3Data = { questions: shuffle([...ex3Questions]).slice(0, 8), current: 0, score: 0, answered: false };
+  renderEx3();
+}
+
+function renderEx3() {
+  const d = ex3Data;
+  if (d.current >= d.questions.length) {
+    showExerciseResult('ex3-content', 'ex3-buttons', 2, d.score, d.questions.length);
+    return;
+  }
+  const q = d.questions[d.current];
+  d.answered = false;
+  document.getElementById('ex3-feedback').innerHTML = '';
+  
+  document.getElementById('ex3-content').innerHTML = `
+    <div class="question-counter">Affirmation ${d.current+1}/${d.questions.length}</div>
+    <div class="question-text" style="font-size:1.1rem; padding:16px 0;">"${q.statement}"</div>
+    <div class="vf-toggle-group">
+      <button class="vf-btn" id="ex3-vrai" onclick="answerEx3(true)">✅ VRAI</button>
+      <button class="vf-btn" id="ex3-faux" onclick="answerEx3(false)">❌ FAUX</button>
+    </div>
+  `;
+  document.getElementById('ex3-buttons').innerHTML = '';
+}
+
+function answerEx3(chosen) {
+  if (ex3Data.answered) return;
+  ex3Data.answered = true;
+  const q = ex3Data.questions[ex3Data.current];
+  const correct = chosen === q.answer;
+  
+  if (correct) ex3Data.score++;
+  
+  const vraiBtn = document.getElementById('ex3-vrai');
+  const fauxBtn = document.getElementById('ex3-faux');
+  
+  // Highlight the correct answer
+  if (q.answer === true) { vraiBtn.classList.add('correct-answer'); } 
+  else { fauxBtn.classList.add('correct-answer'); }
+  
+  // Highlight wrong if needed
+  if (!correct) {
+    if (chosen === true) vraiBtn.classList.add('wrong-answer');
+    else fauxBtn.classList.add('wrong-answer');
+  }
+  
+  document.getElementById('ex3-feedback').innerHTML = `
+    <div class="feedback-bar ${correct ? 'success' : 'error'}">
+      ${correct ? '✅ Bonne réponse !' : '❌ Mauvaise réponse.'} ${q.explanation}
+    </div>
+  `;
+  
+  document.getElementById('ex3-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex3Data.current++; renderEx3();">Suivant ➜</button>
+  `;
+}
+
+// ============================================================
+// EXERCISE 4: DU CONCRET AU COMPTABLE (Matching)
+// ============================================================
+const ex4Items = [
+  { concrete: "🚐 Camionnette de livraison", account: "241 Matériel roulant", class: 2 },
+  { concrete: "🖥️ Ordinateur du bureau", account: "240 Mobilier & mat. bureau", class: 2 },
+  { concrete: "💵 Billets dans le tiroir-caisse", account: "570 Caisse espèces", class: 5 },
+  { concrete: "🏢 Entrepôt de stockage", account: "221 Constructions", class: 2 },
+  { concrete: "🏦 Emprunt de 5 ans chez ING", account: "173 Établissements de crédit", class: 1 },
+  { concrete: "👤 M. Martin nous doit 800 €", account: "400 Clients", class: 4 },
+  { concrete: "📦 Stock de tablettes en rayon", account: "340 Marchandises", class: 3 },
+  { concrete: "💳 Nous devons 3 000 € à Apple", account: "440 Fournisseurs", class: 4 },
+  { concrete: "🌍 Terrain derrière le magasin", account: "220 Terrains", class: 2 },
+  { concrete: "🏧 Solde du compte BNP Paribas", account: "550 Banque cpte courant", class: 5 },
+];
+
+let ex4Data = {};
+
+function initEx4() {
+  const items = shuffle([...ex4Items]).slice(0, 8);
+  ex4Data = { items, current: 0, score: 0, answered: false };
+  renderEx4();
+}
+
+function renderEx4() {
+  const d = ex4Data;
+  if (d.current >= d.items.length) {
+    showExerciseResult('ex4-content', 'ex4-buttons', 3, d.score, d.items.length);
+    return;
+  }
+  
+  const item = d.items[d.current];
+  d.answered = false;
+  document.getElementById('ex4-feedback').innerHTML = '';
+  
+  // Generate wrong options + correct one
+  const allAccounts = ex4Items.map(x => x.account);
+  let options = [item.account];
+  const others = allAccounts.filter(a => a !== item.account);
+  const shuffledOthers = shuffle(others);
+  options.push(shuffledOthers[0], shuffledOthers[1], shuffledOthers[2]);
+  options = shuffle(options);
+  
+  const letters = ['A','B','C','D'];
+  document.getElementById('ex4-content').innerHTML = `
+    <div class="question-counter">Élément ${d.current+1}/${d.items.length}</div>
+    <div class="question-scenario">${item.concrete}</div>
+    <div class="question-text">Quel est le bon compte comptable pour cet élément ?</div>
+    <div class="options-grid">
+      ${options.map((opt, i) => `
+        <button class="option-btn" onclick="answerEx4(${i}, '${opt.replace(/'/g, "\\'")}')" id="ex4-opt-${i}">
+          <span class="opt-letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('ex4-buttons').innerHTML = '';
+}
+
+function answerEx4(idx, chosen) {
+  if (ex4Data.answered) return;
+  ex4Data.answered = true;
+  const item = ex4Data.items[ex4Data.current];
+  const correct = chosen === item.account;
+  
+  if (correct) ex4Data.score++;
+  
+  document.querySelectorAll('#ex4-content .option-btn').forEach((b, i) => {
+    b.classList.add('disabled');
+    if (b.querySelector('span:last-child').textContent === item.account) b.classList.add('correct');
+  });
+  if (!correct) document.getElementById(`ex4-opt-${idx}`).classList.add('wrong');
+  
+  document.getElementById('ex4-feedback').innerHTML = `
+    <div class="feedback-bar ${correct ? 'success' : 'error'}">
+      ${correct ? '✅ Exact !' : '❌ Pas tout à fait.'} 
+      ${item.concrete} → <strong>${item.account}</strong> (Classe ${item.class}).
+    </div>
+  `;
+  
+  document.getElementById('ex4-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex4Data.current++; renderEx4();">Suivant ➜</button>
+  `;
+}
+
+// ============================================================
+// EXERCISE 5: ACTIF/PASSIF & DÉBIT/CRÉDIT
+// ============================================================
+const ex5Questions = [
+  { situation: "Le client Dupont paie sa facture de 500 € par virement bancaire.", account: "550 Banque", type: "actif", direction: "débit", why: "L'argent entre en banque → le compte d'actif Banque AUGMENTE → on enregistre au DÉBIT." },
+  { situation: "L'entreprise paie une facture de 2 000 € au fournisseur Dell par banque.", account: "440 Fournisseurs", type: "passif", direction: "débit", why: "On rembourse une dette → le compte de passif Fournisseurs DIMINUE → on enregistre au DÉBIT." },
+  { situation: "L'entreprise contracte un emprunt de 50 000 € auprès de BNP Paribas.", account: "173 Emprunt bancaire", type: "passif", direction: "crédit", why: "Une nouvelle dette apparaît → le compte de passif Emprunt AUGMENTE → on enregistre au CRÉDIT." },
+  { situation: "L'entreprise achète un véhicule utilitaire pour 25 000 € (pas encore payé).", account: "241 Matériel roulant", type: "actif", direction: "débit", why: "Un nouvel avoir → le compte d'actif Matériel roulant AUGMENTE → on enregistre au DÉBIT." },
+  { situation: "L'entreprise retire 300 € en espèces de son compte en banque.", account: "550 Banque", type: "actif", direction: "crédit", why: "L'argent sort de la banque → le compte d'actif Banque DIMINUE → on enregistre au CRÉDIT." },
+  { situation: "L'entreprise retire 300 € en espèces de son compte en banque.", account: "570 Caisse", type: "actif", direction: "débit", why: "L'argent entre dans la caisse → le compte d'actif Caisse AUGMENTE → on enregistre au DÉBIT." },
+  { situation: "Le fournisseur Samsung nous accorde un crédit de 5 000 € pour du matériel.", account: "440 Fournisseurs", type: "passif", direction: "crédit", why: "Une nouvelle dette fournisseur → le compte de passif AUGMENTE → on enregistre au CRÉDIT." },
+  { situation: "L'entreprise vend un terrain pour 40 000 €, payé par virement.", account: "220 Terrains", type: "actif", direction: "crédit", why: "Un avoir disparaît → le compte d'actif Terrains DIMINUE → on enregistre au CRÉDIT." },
+  { situation: "L'associé apporte 20 000 € supplémentaires au capital.", account: "100 Capital", type: "passif", direction: "crédit", why: "Le capital augmente → le compte de passif Capital AUGMENTE → on enregistre au CRÉDIT." },
+  { situation: "On achète du stock de marchandises pour 8 000 € (pas encore payé).", account: "340 Marchandises", type: "actif", direction: "débit", why: "Le stock augmente → le compte d'actif Marchandises AUGMENTE → on enregistre au DÉBIT." },
+];
+
+let ex5Data = {};
+
+function initEx5() {
+  ex5Data = { questions: shuffle([...ex5Questions]).slice(0, 8), current: 0, score: 0, answered: false };
+  renderEx5();
+}
+
+function renderEx5() {
+  const d = ex5Data;
+  if (d.current >= d.questions.length) {
+    showExerciseResult('ex5-content', 'ex5-buttons', 4, d.score, d.questions.length * 2);
+    return;
+  }
+  const q = d.questions[d.current];
+  d.answered = false;
+  document.getElementById('ex5-feedback').innerHTML = '';
+  
+  document.getElementById('ex5-content').innerHTML = `
+    <div class="question-counter">Situation ${d.current+1}/${d.questions.length}</div>
+    <div class="question-scenario">${q.situation}</div>
+    <div class="question-text">Pour le compte <strong style="color:var(--accent-cyan);">${q.account}</strong> :</div>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px;">
+      <div>
+        <p style="font-weight:700; font-size:0.85rem; margin-bottom:8px; color:var(--text-secondary);">1. Type de compte :</p>
+        <div class="vf-toggle-group">
+          <button class="vf-btn" id="ex5-actif" onclick="selectEx5Type('actif')">🔵 ACTIF</button>
+          <button class="vf-btn" id="ex5-passif" onclick="selectEx5Type('passif')">🟠 PASSIF</button>
+        </div>
+      </div>
+      <div>
+        <p style="font-weight:700; font-size:0.85rem; margin-bottom:8px; color:var(--text-secondary);">2. On enregistre au :</p>
+        <div class="vf-toggle-group">
+          <button class="vf-btn" id="ex5-debit" onclick="selectEx5Dir('débit')">◀ DÉBIT</button>
+          <button class="vf-btn" id="ex5-credit" onclick="selectEx5Dir('crédit')">CRÉDIT ▶</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="btn-group" style="margin-top:16px;">
+      <button class="btn btn-primary" id="ex5-validate" onclick="validateEx5()" disabled>Valider ma réponse</button>
+    </div>
+  `;
+  document.getElementById('ex5-buttons').innerHTML = '';
+  ex5Data.selectedType = null;
+  ex5Data.selectedDir = null;
+}
+
+function selectEx5Type(t) {
+  if (ex5Data.answered) return;
+  ex5Data.selectedType = t;
+  document.getElementById('ex5-actif').className = 'vf-btn' + (t === 'actif' ? ' selected-v' : '');
+  document.getElementById('ex5-passif').className = 'vf-btn' + (t === 'passif' ? ' selected-f' : '');
+  checkEx5Ready();
+}
+
+function selectEx5Dir(d) {
+  if (ex5Data.answered) return;
+  ex5Data.selectedDir = d;
+  document.getElementById('ex5-debit').className = 'vf-btn' + (d === 'débit' ? ' selected-v' : '');
+  document.getElementById('ex5-credit').className = 'vf-btn' + (d === 'crédit' ? ' selected-f' : '');
+  checkEx5Ready();
+}
+
+function checkEx5Ready() {
+  document.getElementById('ex5-validate').disabled = !(ex5Data.selectedType && ex5Data.selectedDir);
+}
+
+function validateEx5() {
+  if (ex5Data.answered) return;
+  ex5Data.answered = true;
+  const q = ex5Data.questions[ex5Data.current];
+  const typeCorrect = ex5Data.selectedType === q.type;
+  const dirCorrect = ex5Data.selectedDir === q.direction;
+  
+  let pts = 0;
+  if (typeCorrect) pts++;
+  if (dirCorrect) pts++;
+  ex5Data.score += pts;
+  
+  // Highlight
+  document.getElementById(`ex5-${q.type}`).classList.add('correct-answer');
+  document.getElementById(`ex5-${q.direction === 'débit' ? 'debit' : 'credit'}`).classList.add('correct-answer');
+  if (!typeCorrect) document.getElementById(`ex5-${ex5Data.selectedType}`).classList.add('wrong-answer');
+  if (!dirCorrect) document.getElementById(`ex5-${ex5Data.selectedDir === 'débit' ? 'debit' : 'credit'}`).classList.add('wrong-answer');
+  
+  document.getElementById('ex5-validate').disabled = true;
+  
+  const allCorrect = typeCorrect && dirCorrect;
+  document.getElementById('ex5-feedback').innerHTML = `
+    <div class="feedback-bar ${allCorrect ? 'success' : (pts > 0 ? 'info' : 'error')}">
+      ${allCorrect ? '✅ Parfait !' : (pts > 0 ? '⚠️ Partiellement correct.' : '❌ Pas cette fois.')} 
+      ${q.why}
+    </div>
+  `;
+  
+  document.getElementById('ex5-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex5Data.current++; renderEx5();">Suivant ➜</button>
+  `;
+}
+
+// ============================================================
+// EXERCISE 6: COMPLÉTER UN COMPTE
+// ============================================================
+let ex6Data = {};
+
+function initEx6() {
+  ex6Data = { step: 0, score: 0, maxScore: 12 };
+  renderEx6();
+}
+
+function renderEx6() {
+  if (ex6Data.step === 0) renderEx6Account1();
+  else if (ex6Data.step === 1) renderEx6Account2();
+  else showExerciseResult('ex6-content', 'ex6-buttons', 5, ex6Data.score, ex6Data.maxScore);
+}
+
+function renderEx6Account1() {
+  document.getElementById('ex6-feedback').innerHTML = '';
+  document.getElementById('ex6-content').innerHTML = `
+    <p style="margin-bottom:16px; color:var(--text-secondary); font-size:0.9rem;">
+      <strong>Partie A :</strong> Complète le compte <strong style="color:var(--accent-cyan);">550 Banque</strong> (compte d'actif) de FleurShop SRL.
+    </p>
+    <div class="account-title-bar">
+      <span>550 Banque (Compte d'Actif)</span>
+      <span>💳</span>
+    </div>
+    <table class="account-table">
+      <thead>
+        <tr><th>Date</th><th>Libellé</th><th>N°</th><th>Débit</th><th>Crédit</th><th>Solde</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>02/01</td><td style="text-align:left;">Situation initiale</td><td>—</td>
+          <td class="debit-col">12 000,00</td><td class="credit-col">—</td>
+          <td><input type="text" id="ex6a-s1" placeholder="?" data-answer="12000"></td>
+        </tr>
+        <tr>
+          <td>05/01</td><td style="text-align:left;">Paiement fournisseur Fleurexpo</td><td>1</td>
+          <td class="debit-col">—</td><td class="credit-col">3 500,00</td>
+          <td><input type="text" id="ex6a-s2" placeholder="?" data-answer="8500"></td>
+        </tr>
+        <tr>
+          <td>10/01</td><td style="text-align:left;">Encaissement client Martin</td><td>2</td>
+          <td class="debit-col">2 200,00</td><td class="credit-col">—</td>
+          <td><input type="text" id="ex6a-s3" placeholder="?" data-answer="10700"></td>
+        </tr>
+        <tr>
+          <td>15/01</td><td style="text-align:left;">Loyer du magasin</td><td>3</td>
+          <td class="debit-col">—</td><td class="credit-col">1 800,00</td>
+          <td><input type="text" id="ex6a-s4" placeholder="?" data-answer="8900"></td>
+        </tr>
+        <tr>
+          <td>22/01</td><td style="text-align:left;">Encaissement client Dubois</td><td>4</td>
+          <td class="debit-col">4 600,00</td><td class="credit-col">—</td>
+          <td><input type="text" id="ex6a-s5" placeholder="?" data-answer="13500"></td>
+        </tr>
+        <tr>
+          <td>28/01</td><td style="text-align:left;">Paiement assurance annuelle</td><td>5</td>
+          <td class="debit-col">—</td><td class="credit-col">2 400,00</td>
+          <td><input type="text" id="ex6a-s6" placeholder="?" data-answer="11100"></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.8rem; color:var(--text-muted);">💡 Rappel : Actif → Débit = augmentation, Crédit = diminution. Entre le solde sans décimales.</p>
+  `;
+  document.getElementById('ex6-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="checkEx6Account1()">Vérifier mes réponses</button>
+  `;
+}
+
+function checkEx6Account1() {
+  let pts = 0;
+  for (let i = 1; i <= 6; i++) {
+    const input = document.getElementById(`ex6a-s${i}`);
+    const val = input.value.replace(/[\s.,€]/g, '').trim();
+    const answer = input.dataset.answer;
+    if (val === answer) {
+      input.classList.add('input-correct');
+      input.classList.remove('input-wrong');
+      pts++;
+    } else {
+      input.classList.add('input-wrong');
+      input.classList.remove('input-correct');
+    }
+  }
+  ex6Data.score += pts;
+  
+  document.getElementById('ex6-feedback').innerHTML = `
+    <div class="feedback-bar ${pts >= 5 ? 'success' : (pts >= 3 ? 'info' : 'error')}">
+      ${pts >= 5 ? '✅ Excellent !' : '⚠️'} Tu as trouvé <strong>${pts}/6</strong> soldes corrects.
+      ${pts < 6 ? ' Le solde se calcule : solde précédent + débit - crédit.' : ''}
+    </div>
+  `;
+  
+  document.getElementById('ex6-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex6Data.step=1; renderEx6();">Partie B : Compte de passif ➜</button>
+  `;
+}
+
+function renderEx6Account2() {
+  document.getElementById('ex6-feedback').innerHTML = '';
+  document.getElementById('ex6-content').innerHTML = `
+    <p style="margin-bottom:16px; color:var(--text-secondary); font-size:0.9rem;">
+      <strong>Partie B :</strong> Complète le compte <strong style="color:var(--accent-orange);">440 Fournisseurs</strong> (compte de passif) de FleurShop SRL.
+    </p>
+    <div class="account-title-bar" style="background:linear-gradient(90deg, var(--accent-orange), var(--accent-pink));">
+      <span>440 Fournisseurs (Compte de Passif)</span>
+      <span>📦</span>
+    </div>
+    <table class="account-table">
+      <thead>
+        <tr><th>Date</th><th>Libellé</th><th>N°</th><th>Débit</th><th>Crédit</th><th>Solde</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>02/01</td><td style="text-align:left;">Situation initiale</td><td>—</td>
+          <td class="debit-col">—</td><td class="credit-col">6 000,00</td>
+          <td><input type="text" id="ex6b-s1" placeholder="?" data-answer="6000"></td>
+        </tr>
+        <tr>
+          <td>05/01</td><td style="text-align:left;">Paiement fournisseur Fleurexpo</td><td>1</td>
+          <td class="debit-col">3 500,00</td><td class="credit-col">—</td>
+          <td><input type="text" id="ex6b-s2" placeholder="?" data-answer="2500"></td>
+        </tr>
+        <tr>
+          <td>12/01</td><td style="text-align:left;">Facture n°78 de RoseImport</td><td>2</td>
+          <td class="debit-col">—</td><td class="credit-col">4 200,00</td>
+          <td><input type="text" id="ex6b-s3" placeholder="?" data-answer="6700"></td>
+        </tr>
+        <tr>
+          <td>18/01</td><td style="text-align:left;">Paiement fournisseur RoseImport</td><td>3</td>
+          <td class="debit-col">2 000,00</td><td class="credit-col">—</td>
+          <td><input type="text" id="ex6b-s4" placeholder="?" data-answer="4700"></td>
+        </tr>
+        <tr>
+          <td>25/01</td><td style="text-align:left;">Facture n°112 de VaseDéco</td><td>4</td>
+          <td class="debit-col">—</td><td class="credit-col">1 500,00</td>
+          <td><input type="text" id="ex6b-s5" placeholder="?" data-answer="6200"></td>
+        </tr>
+        <tr>
+          <td>30/01</td><td style="text-align:left;">Paiement solde Fleurexpo</td><td>5</td>
+          <td class="debit-col">2 500,00</td><td class="credit-col">—</td>
+          <td><input type="text" id="ex6b-s6" placeholder="?" data-answer="3700"></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.8rem; color:var(--text-muted);">💡 Rappel : Passif → Crédit = augmentation, Débit = diminution. Entre le solde sans décimales.</p>
+  `;
+  document.getElementById('ex6-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="checkEx6Account2()">Vérifier mes réponses</button>
+  `;
+}
+
+function checkEx6Account2() {
+  let pts = 0;
+  for (let i = 1; i <= 6; i++) {
+    const input = document.getElementById(`ex6b-s${i}`);
+    const val = input.value.replace(/[\s.,€]/g, '').trim();
+    const answer = input.dataset.answer;
+    if (val === answer) {
+      input.classList.add('input-correct');
+      input.classList.remove('input-wrong');
+      pts++;
+    } else {
+      input.classList.add('input-wrong');
+      input.classList.remove('input-correct');
+    }
+  }
+  ex6Data.score += pts;
+  
+  document.getElementById('ex6-feedback').innerHTML = `
+    <div class="feedback-bar ${pts >= 5 ? 'success' : (pts >= 3 ? 'info' : 'error')}">
+      ${pts >= 5 ? '✅ Très bien !' : '⚠️'} Tu as trouvé <strong>${pts}/6</strong> soldes corrects.
+      ${pts < 6 ? ' Pour un compte de passif : solde précédent + crédit - débit.' : ''}
+    </div>
+  `;
+  
+  document.getElementById('ex6-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="ex6Data.step=2; renderEx6();">Voir mon résultat ➜</button>
+  `;
+}
+
+// ============================================================
+// EXERCISE 7: BILAN COMPLET
+// ============================================================
+const ex7Elements = [
+  { name: "Capital souscrit", num: "100", amount: 80000, side: "passif" },
+  { name: "Terrain", num: "220", amount: 35000, side: "actif" },
+  { name: "Matériel informatique", num: "240", amount: 18000, side: "actif" },
+  { name: "Constructions (bureaux)", num: "221", amount: 55000, side: "actif" },
+  { name: "Banque compte courant", num: "550", amount: 22000, side: "actif" },
+  { name: "Emprunt bancaire (5 ans)", num: "173", amount: 40000, side: "passif" },
+  { name: "Clients", num: "400", amount: 8500, side: "actif" },
+  { name: "Fournisseurs", num: "440", amount: 12000, side: "passif" },
+  { name: "Caisse espèces", num: "570", amount: 1500, side: "actif" },
+  { name: "Marchandises", num: "340", amount: 6000, side: "actif" },
+  { name: "Matériel roulant", num: "241", amount: 15000, side: "actif" },
+  { name: "Réserve légale", num: "130", amount: 29000, side: "passif" },
+];
+
+let ex7Data = {};
+
+function initEx7() {
+  ex7Data = { elements: shuffle([...ex7Elements]), answers: {}, score: 0 };
+  renderEx7();
+}
+
+function renderEx7() {
+  document.getElementById('ex7-feedback').innerHTML = '';
+  
+  const elHTML = ex7Data.elements.map((el, i) => `
+    <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; margin-bottom:8px;">
+      <span style="font-family:'JetBrains Mono',monospace; color:var(--accent-cyan); font-size:0.85rem; width:40px;">${el.num}</span>
+      <span style="flex:1; font-weight:600; font-size:0.9rem;">${el.name}</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--accent-yellow);">${el.amount.toLocaleString('fr-BE')} €</span>
+      <select class="styled-select" id="ex7-sel-${i}" onchange="ex7Data.answers[${i}]=this.value">
+        <option value="">Choisir...</option>
+        <option value="actif">ACTIF</option>
+        <option value="passif">PASSIF</option>
+      </select>
+    </div>
+  `).join('');
+  
+  document.getElementById('ex7-content').innerHTML = `
+    <p style="margin-bottom:16px; color:var(--text-secondary); font-size:0.9rem;">
+      Pour chaque élément de <strong>PixelWeb SRL</strong>, indique s'il va à l'<strong style="color:var(--accent-blue);">ACTIF</strong> 
+      ou au <strong style="color:var(--accent-orange);">PASSIF</strong> du bilan.
+    </p>
+    ${elHTML}
+  `;
+  
+  document.getElementById('ex7-buttons').innerHTML = `
+    <button class="btn btn-primary" onclick="checkEx7()">Vérifier le bilan</button>
+  `;
+}
+
+function checkEx7() {
+  let pts = 0;
+  let totalActif = 0, totalPassif = 0;
+  
+  ex7Data.elements.forEach((el, i) => {
+    const sel = document.getElementById(`ex7-sel-${i}`);
+    const chosen = sel.value;
+    if (chosen === el.side) {
+      sel.classList.add('input-correct');
+      sel.classList.remove('input-wrong');
+      pts++;
+    } else {
+      sel.classList.add('input-wrong');
+      sel.classList.remove('input-correct');
+    }
+    if (el.side === 'actif') totalActif += el.amount;
+    else totalPassif += el.amount;
+  });
+  
+  ex7Data.score = pts;
+  const allCorrect = pts === ex7Data.elements.length;
+  
+  let bilanHTML = '';
+  if (allCorrect) {
+    const actifItems = ex7Data.elements.filter(e => e.side === 'actif').sort((a,b) => parseInt(a.num) - parseInt(b.num));
+    const passifItems = ex7Data.elements.filter(e => e.side === 'passif').sort((a,b) => parseInt(a.num) - parseInt(b.num));
+    
+    bilanHTML = `
+      <div style="margin-top:20px;">
+        <h3 style="font-family:'Fredoka',sans-serif; text-align:center; margin-bottom:12px; color:var(--accent-cyan);">📊 Bilan de PixelWeb SRL au 01/01</h3>
+        <div class="bilan-grid">
+          <div class="bilan-side actif">
+            <h3>ACTIF</h3>
+            ${actifItems.map(e => `
+              <div class="bilan-row">
+                <span>${e.num} ${e.name}</span>
+                <span class="bilan-amount">${e.amount.toLocaleString('fr-BE')} €</span>
+              </div>
+            `).join('')}
+            <div class="bilan-total">
+              <span>TOTAL ACTIF</span>
+              <span>${totalActif.toLocaleString('fr-BE')} €</span>
+            </div>
+          </div>
+          <div class="bilan-side passif">
+            <h3>PASSIF</h3>
+            ${passifItems.map(e => `
+              <div class="bilan-row">
+                <span>${e.num} ${e.name}</span>
+                <span class="bilan-amount">${e.amount.toLocaleString('fr-BE')} €</span>
+              </div>
+            `).join('')}
+            <div class="bilan-total">
+              <span>TOTAL PASSIF</span>
+              <span>${totalPassif.toLocaleString('fr-BE')} €</span>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:12px; padding:10px; background:rgba(34,197,94,0.1); border-radius:8px; border:1px solid rgba(34,197,94,0.3);">
+          ✅ <strong>ACTIF = PASSIF = ${totalActif.toLocaleString('fr-BE')} €</strong> — Le bilan est équilibré !
+        </div>
+      </div>
+    `;
+  }
+  
+  document.getElementById('ex7-feedback').innerHTML = `
+    <div class="feedback-bar ${allCorrect ? 'success' : (pts >= 8 ? 'info' : 'error')}">
+      ${allCorrect ? '🎉 Parfait !' : '⚠️'} Tu as classé correctement <strong>${pts}/${ex7Data.elements.length}</strong> éléments.
+      ${!allCorrect ? ' Rappel : les avoirs (ce que l\'entreprise possède) vont à l\'ACTIF, les dettes et le capital vont au PASSIF.' : ''}
+    </div>
+    ${bilanHTML}
+  `;
+  
+  if (allCorrect) {
+    document.getElementById('ex7-buttons').innerHTML = `
+      <button class="btn btn-success" onclick="showExerciseResult('ex7-content','ex7-buttons',6,${pts},${ex7Data.elements.length})">Voir mon résultat final 🏆</button>
+    `;
+  } else {
+    document.getElementById('ex7-buttons').innerHTML = `
+      <button class="btn btn-outline" onclick="initEx7()">🔄 Réessayer</button>
+      <button class="btn btn-primary" onclick="showExerciseResult('ex7-content','ex7-buttons',6,${pts},${ex7Data.elements.length})">Voir mon résultat ➜</button>
+    `;
+  }
+}
+
+// ============================================================
+// FINAL RESULTS
+// ============================================================
+function showFinalResults() {
+  showPanel('final');
+  
+  const totalPossible = state.maxScores.reduce((a,b) => a+b, 0);
+  const totalGot = state.scores.reduce((a,b) => a+b, 0);
+  const pct = totalPossible > 0 ? Math.round((totalGot / totalPossible) * 100) : 0;
+  
+  let rank = '🥉 Apprenti comptable';
+  let color = 'var(--accent-orange)';
+  if (pct >= 90) { rank = '🏆 Expert PCMN'; color = 'var(--accent-yellow)'; }
+  else if (pct >= 75) { rank = '🥈 Comptable confirmé'; color = 'var(--text-secondary)'; }
+  else if (pct >= 60) { rank = '🥉 Comptable en devenir'; color = 'var(--accent-orange)'; }
+  
+  const details = exercises.map((ex, i) => {
+    const s = state.scores[i];
+    const m = state.maxScores[i];
+    const stars = getStars(s, m);
+    return `
+      <div style="display:flex; align-items:center; gap:12px; padding:10px 14px; background:rgba(255,255,255,0.02); border-radius:8px; margin-bottom:6px;">
+        <span style="font-size:1.3rem;">${ex.icon}</span>
+        <span style="flex:1; font-weight:600;">${ex.name}</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:0.85rem;">${s}/${m}</span>
+        <span>${starsHTML(stars)}</span>
+      </div>
+    `;
+  }).join('');
+  
+  document.getElementById('final-content').innerHTML = `
+    <div style="font-size:3rem; margin-bottom:10px;">🎓</div>
+    <h2 style="font-family:'Fredoka',sans-serif; font-size:1.8rem; margin-bottom:6px;">Résultats finaux</h2>
+    <p style="color:${color}; font-family:'Fredoka',sans-serif; font-size:1.2rem; font-weight:600; margin-bottom:20px;">${rank}</p>
+    
+    <div class="score-circle ${pct >= 90 ? 'gold' : (pct >= 60 ? 'silver' : 'bronze')}" style="margin-bottom:20px;">
+      <span class="score-num">${pct}%</span>
+      <span class="score-label">${totalGot}/${totalPossible} pts</span>
+    </div>
+    
+    <div style="text-align:left; max-width:500px; margin:0 auto 20px;">
+      <h3 style="font-family:'Fredoka',sans-serif; font-size:1rem; margin-bottom:10px; color:var(--text-secondary);">Détail par exercice :</h3>
+      ${details}
+    </div>
+    
+    <div class="btn-group" style="justify-content:center;">
+      <button class="btn btn-outline" onclick="resetGame()">🔄 Tout recommencer</button>
+    </div>
+  `;
+  
+  if (pct >= 75) launchConfetti();
+}
+
+function resetGame() {
+  state.scores = [0,0,0,0,0,0,0];
+  state.maxScores = [0,0,0,0,0,0,0];
+  state.completed = [false,false,false,false,false,false,false];
+  state.totalScore = 0;
+  state.currentExercise = 0;
+  updateProgress();
+  buildNav();
+  showPanel('welcome');
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildNav();
+updateProgress();
+</script>
+</body>
+</html>
